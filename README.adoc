@@ -1,0 +1,221 @@
+= Tutor Web – Hướng dẫn làm việc nhóm (Git Workflow)
+
+== Mục tiêu
+Tài liệu mô tả *cách clone/push*, *quy ước tên nhánh*, *quy tắc commit*, *tạo Pull Request (PR)*, *đặt tên PR*, *thêm Reviewer/Assignee*, áp dụng cho cả *frontend* và *backend*.
+
+== Chuẩn bị
+* Yêu cầu:
+** Đã có quyền *Collaborator/Member* trong project.
+** Đã cài `git`.
+** Đã setup *Node.js* (frontend) hoặc *JDK + Maven* (backend) theo hướng dẫn riêng của project.
+
+== 1) Lấy mã nguồn về máy (clone)
+=== 1. HTTPS
+[source,bash]
+----
+# Frontend
+git clone https://github.com/nghlong3004/tutor-web-frontend.git
+# Backend
+git clone https://github.com/nghlong3004/tutor-web-backend.git
+----
+
+[NOTE]
+====
+Sau khi clone, chạy thử theo README của từng repo (cài dependency, chạy lệnh `npm run dev` / `mvn spring-boot:run`, v.v.).
+====
+
+== 2) Cấu trúc nhánh (branching)
+Chúng ta dùng 3 loại nhánh chính:
+
+* `main`: *ổn định*, nhánh này code sẽ luôn luôn đúng.
+* Nhánh công việc: `feature/*`, `bugfix/*`, `hotfix/*`, `chore/*`, `docs/*`.
+
+=== 2.1. Quy ước tên nhánh
+Cú pháp chung:
+
+`<type>/<scope>-<short-desc>`
+
+Trong đó:
+* *type*: `feature`, `bugfix`, `hotfix`, `chore`, `docs`
+* *scope*: `frontend` hoặc `backend` hoặc tên module cụ thể
+* *short-desc*: mô tả ngắn, `kebab-case` (không dấu, không khoảng trắng)
+
+Ví dụ:
+* `feature/frontend-login-ui`
+* `feature/backend-api-auth`
+* `bugfix/frontend-camera-switch`
+* `chore/backend-ci-pipeline`
+* `docs/frontend-readme-update`
+
+== 3) Quy trình làm việc hằng ngày
+1. *Pull* `main` mới nhất:
++
+[source,bash]
+----
+git checkout main
+git pull origin main
+----
+2. *Tạo nhánh công việc* từ `develop`:
++
+[source,bash]
+----
+example: git checkout -b feature/frontend-login-ui
+----
+3. *Làm việc và commit* theo quy tắc ở phần 4.
+4. *Push* nhánh lên remote:
++
+[source,bash]
+----
+example: git push -u origin feature/frontend-login-ui
+----
+5. *Tạo Pull Request* vào `main`.
+
+== 4) Quy tắc commit (Conventional Commits rút gọn)
+Cú pháp:
+
+`<type>: <summary>`
+
+*type* hợp lệ:
+* `feat` thêm tính năng
+* `fix` sửa lỗi
+* `docs` tài liệu
+* `style` định dạng, không đổi logic
+* `refactor` tái cấu trúc, không thêm tính năng
+* `perf` tối ưu hiệu năng
+* `test` thêm/cập nhật test
+* `chore` việc vặt, build, dev-tools
+
+Ví dụ:
+* `feat: add login page with OAuth`
+* `fix: handle null token in auth filter`
+* `docs: update README for env setup`
+* `refactor: extract service layer for tutor schedule`
+
+[TIP]
+====
+* Summary <= 72 ký tự.
+* Commit nhỏ, có ý nghĩa độc lập.
++
+[source,git]
+----
+feat: add login page
+----
+====
+
+== 5) Tạo Pull Request (PR)
+=== 5.1. Nhánh nguồn và đích
+* *From*: nhánh công việc của bạn, ví dụ `feature/frontend-login-ui`
+* *Into*: `main`.
+
+=== 5.2. Quy tắc đặt tên PR
+Cú pháp:
+
+`[<Repo>][<Type>][<Scope>] <Short title>`
+
+Trong đó:
+* `<Repo>`: `FE` hoặc `BE`
+* `<Type>`: `FEAT` | `FIX` | `CHORE` | `DOCS` | `REFACTOR` | `TEST` | `PERF`
+* `<Scope>`: phần ảnh hưởng chính, ví dụ `Auth`, `Booking`, `UI`, `DB`
+
+Ví dụ:
+* `[FE][FEAT][Auth] Implement login UI + validation`
+* `[BE][FIX][Auth] Null token handling in JwtFilter`
+* `[FE][CHORE][Build] Enable Vite preview config`
+* `[BE][REFACTOR][Service] Split TutorService into modules`
+
+=== 5.3. PR Template
+[source,markdown]
+----
+## Summary
+- What changed?
+
+## Type
+- [ ] FEAT
+- [ ] FIX
+- [ ] REFACTOR
+- [ ] CHORE
+- [ ] DOCS
+- [ ] TEST
+- [ ] PERF
+
+## Scope
+- [ ] Frontend
+- [ ] Backend
+
+## How to Test
+1. Steps to reproduce / verify
+2. Expected result
+
+## Screenshots / Logs
+(attach if UI or error logs)
+
+## Checklist
+- [ ] Self-review done
+- [ ] Lint/Format passed
+- [ ] Unit tests added/updated (if applicable)
+- [ ] No secrets committed
+- [ ] Updated docs (if needed)
+----
+
+=== 5.4. Gán Reviewer và Assignee
+* *Reviewer*:
+** *nghlong3004* + *tai* + *minh* review.
+* *Assignee*: người *thực hiện chính* PR (tác giả PR).
+
+Ví dụ thiết lập tối thiểu:
+* `tutor-web-frontend`:
+** Reviewer mặc định: `@nghlong3004`
+** Assignee: tác giả PR
+* `tutor-web-backend`:
+** Reviewer mặc định: `@nghlong3004`
+** Assignee: tác giả PR
+
+=== 5.5. Nhãn (labels) gợi ý
+* `type:feat`, `type:fix`, `type:docs`, `type:refactor`, `type:test`
+* `scope:frontend`, `scope:backend`
+* `priority:high`, `priority:normal`, `priority:low`
+
+== 6) Merge chiến lược
+* Mặc định dùng *Squash & Merge* để giữ lịch sử gọn.
+* *Merge khi*:
+** Có ít nhất 1 Reviewer hợp lệ approve.
+** Đã cập nhật `main` mới nhất, không conflict.
+* *Không merge* khi còn comment *Blocking*.
+
+== 7) Quy ước dành riêng cho Frontend
+* Thư mục nguồn: `src/`
+* Lệnh cơ bản:
++
+[source,bash]
+----
+npm install
+npm run dev
+npm run build
+npm run lint
+npm run test
+----
+* Commit UI nên đính kèm screenshot trước/sau nếu thay đổi giao diện.
+
+== 8) Quy ước dành riêng cho Backend
+* Cấu hình `application-*.yml` tách *dev/prod*, không commit secrets.
+* Lệnh cơ bản (Maven ví dụ):
++
+[source,bash]
+----
+mvn clean verify
+mvn spring-boot:run
+----
+* Có test tối thiểu cho service và controller quan trọng.
+
+== 9) Ví dụ end-to-end (Frontend)
+[source,bash]
+----
+git checkout develop
+git pull origin develop
+
+git checkout -b feature/frontend-login-ui
+# code...
+
+git add .
+git commit -m "feat(frontend): add login page with form validation"
+git push -u origin feature/
