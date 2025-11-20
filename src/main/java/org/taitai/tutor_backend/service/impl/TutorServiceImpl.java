@@ -22,20 +22,20 @@ import java.util.Map;
 public class TutorServiceImpl implements TutorService {
     private final TutorRepo tutorRepo;
     private final UserRepo userRepo;
+
     @Override
     public ResponseEntity<String> signUp(TutorSignUpRequest tutorRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        User user = userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        User user = userRepo.findByUsername(username)
+                            .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         if (user.getTutor() != null) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", "Bạn đã đăng ký làm gia sư rồi!").toString());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(Map.of("message", "Bạn đã đăng ký làm gia sư rồi!").toString());
         }
-        if(tutorRepo.findTutorByEmail(tutorRequest.getEmail()).isPresent())
+        if (tutorRepo.findTutorByEmail(tutorRequest.getEmail()).isPresent())
             throw new RuntimeException("Email already exists");
         Tutor tutor = new Tutor();
-        tutor.setName(tutorRequest.getName());
         tutor.setEmail(tutorRequest.getEmail());
         tutor.setSubject(tutorRequest.getSubject());
         tutor.setUser(user);

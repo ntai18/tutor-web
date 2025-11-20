@@ -13,15 +13,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tutor {
-    @Id
-    @Column(name = "name")
-    private String name;
-    @OneToOne
-    @JoinColumn(name = "tutor_id", referencedColumnName = "id" )
+   @Id
+    @Column(name = "id")
+    private Long id;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
-    @Column(name = "email" , columnDefinition = "VARCHAR(100)")
+
+    @Column(name = "email", columnDefinition = "VARCHAR(100)")
     private String email;
-    @Column(name = "subject" , columnDefinition = "VARCHAR(100)")
+
+    @Column(name = "subject", columnDefinition = "VARCHAR(100)")
     private String subject;
 }
 
