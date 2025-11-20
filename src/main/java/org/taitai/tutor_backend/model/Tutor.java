@@ -23,10 +23,10 @@ public class Tutor {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "email", columnDefinition = "VARCHAR(100)")
+    @Column(name = "email", columnDefinition = "VARCHAR(255)")
     private String email;
 
-    @Column(name = "subject", columnDefinition = "VARCHAR(100)")
+    @Column(name = "subject", columnDefinition = "VARCHAR(55)")
     private String subject;
 }
 
