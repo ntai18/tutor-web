@@ -3,8 +3,8 @@ package org.taitai.tutor_backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.taitai.tutor_backend.model.Classes;
 import org.taitai.tutor_backend.request.TutorSignUpRequest;
+import org.taitai.tutor_backend.response.TutorAssignmentResponse;
 import org.taitai.tutor_backend.service.TutorService;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class TutorController {
         return tutorService.signUp(tutorSignUpRequest);
     }
     @GetMapping("/assignments")
-    public List<Classes> getAssignments() {
+    public List<TutorAssignmentResponse> getAssignments() {
         return tutorService.getAssignedClasses();
     }
 }
