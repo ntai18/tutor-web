@@ -67,14 +67,12 @@ public class TutorServiceImpl implements TutorService {
         if (tutorApply.isEmpty()){
             return Collections.emptyList();
         }
-        List<TutorAssignmentResponse> tutorAssignmentResponses =
-                tutorApply.stream()
+        return tutorApply.stream()
                           .map(apply -> TutorAssignmentResponse
                                   .builder()
                                   .username(apply.getClasses().getUsername())
                                   .description(apply.getClasses().getDescription())
                                   .build())
                            .toList();
-        return tutorAssignmentResponses;
     }
 }
