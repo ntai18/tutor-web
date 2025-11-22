@@ -6,9 +6,11 @@ import org.taitai.tutor_backend.model.Classes;
 import org.taitai.tutor_backend.model.Tutor;
 import org.taitai.tutor_backend.model.TutorApply;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TutorApplyRepo extends JpaRepository<TutorApply, Long> {
     Optional<TutorApply> findByTutorAndClasses(Tutor tutor, Classes classes);
+    List<TutorApply> findByTutor(Tutor tutor);
 }

@@ -12,4 +12,5 @@ public interface TutorRepo extends JpaRepository<Tutor, String> {
     Optional<Tutor> findTutorByEmail(String email);
 
     Optional<Tutor> findByUser(User user);
+    Optional<Tutor> findById(Long id);
 }
