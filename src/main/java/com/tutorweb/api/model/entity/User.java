@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
-import static com.tutorweb.api.type.UserStatusType.ACTIVE;
 @Entity
 @Table(name = "user_app")
 @Getter
@@ -24,21 +24,22 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "full_name", nullable = false , length = 100)
-    private String fullName;
+    @Column(name = "username", nullable = false , length = 100)
+    private String username;
 
     @Column(nullable = false , unique = true , length = 15)
     private String phone;
 
+    @Column(nullable = false , length = 15)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false , length = 20)
-    private RoleType role = RoleType.USER;
+    private RoleType role;
 
     @Column(nullable = false , length = 20)
     @Enumerated(EnumType.STRING)
-    private UserStatusType status = ACTIVE;
+    private UserStatusType status;
 
-    private LocalDateTime created_at = LocalDateTime.now();
+    @Column(name = "create_at", nullable = false )
+    private LocalDateTime createdAt ;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Tutor tutor;

@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.Set;
+
 
 @Entity
-@Table(name ="tutor_profile")
+@Table(name ="tutor")
 @Getter
 @Setter
 public class Tutor {
@@ -36,14 +36,5 @@ public class Tutor {
 
     @Column(name ="profile_status")
     private TutorStatusType profileStatus= TutorStatusType.PENDING;
-
-    @OneToOne(mappedBy = "tutor", cascade = CascadeType.ALL)
-    private Certificate certificate;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "tutor_subject" , joinColumns = @JoinColumn(name = "tutor_id") , inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private Set<Subject> subject;
 
 }
