@@ -1,7 +1,7 @@
 package com.tutorweb.api.controller;
 
 import com.tutorweb.api.model.dto.response.ApiResponse;
-import com.tutorweb.api.model.dto.response.SignUpResponse;
+import com.tutorweb.api.model.dto.response.UserResponse;
 import com.tutorweb.api.model.dto.response.TokenResponse;
 import com.tutorweb.api.model.dto.request.LoginRequest;
 import com.tutorweb.api.model.dto.request.SignUpRequest;
@@ -25,8 +25,8 @@ public class AuthenticationController {
         return apiResponse;
     }
     @PostMapping("/signup")
-    public ApiResponse<SignUpResponse> signup(@RequestBody SignUpRequest signUpRequest) {
-        ApiResponse<SignUpResponse> apiResponse = new ApiResponse<>();
+    public ApiResponse<UserResponse> signup(@RequestBody SignUpRequest signUpRequest) {
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
         apiResponse.setData(authenticationService.signup(signUpRequest));
         return  apiResponse;
     }

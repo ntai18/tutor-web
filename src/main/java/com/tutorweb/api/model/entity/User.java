@@ -39,7 +39,7 @@ public class User {
     private UserStatusType status;
 
     @Column(name = "create_at", nullable = false )
-    private LocalDateTime createdAt ;
+    private LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Tutor tutor;
