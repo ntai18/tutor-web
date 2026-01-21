@@ -17,18 +17,20 @@ public enum ErrorCode {
     AUTH_006(406, "Refresh Token không hợp lệ hoặc đã hết hạn"),
 
     // User
-    USR_007(407, "Email đã tồn tại"),
-    USR_008(408, "Không tìm thấy người dùng"),
-    USR_009(409, "Tài khoản người dùng đã bị khóa"),
+    USR_007(407, "UserName đã tồn tại"),
+    USR_008(407, "Phone đã tồn tại"),
+    USR_009(407, "Email đã tồn tại"),
+    USR_010(408, "Không tìm thấy người dùng"),
+    USR_011(409, "Tài khoản người dùng đã bị khóa"),
 
     // Tutor
-    TUT_010(410, "Không tìm thấy hồ sơ gia sư"),
-    TUT_011(411, "Hồ sơ gia sư chưa được phê duyệt"),
+    TUT_012(410, "Không tìm thấy hồ sơ gia sư"),
+    TUT_013(411, "Hồ sơ gia sư chưa được phê duyệt"),
 
     // Booking
-    BK_012(412,"Trùng lịch đặt"),
-    BK_013(413, "Không tìm thấy lịch đặt"),
-    BK_014(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)");
+    BK_014(412,"Trùng lịch đặt"),
+    BK_015(413, "Không tìm thấy lịch đặt"),
+    BK_016(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)");
     private final int code;
     private final String message;
 }
