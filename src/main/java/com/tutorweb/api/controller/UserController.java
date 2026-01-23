@@ -14,8 +14,8 @@ public class UserController {
     private final UserService userService;
 
 
-    @PatchMapping("/{id}")
-    public ApiResponse<UserResponse> updateProfile(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+    @PatchMapping("/update")
+    public ApiResponse<UserResponse> updateProfile( @RequestBody UpdateUserRequest updateUserRequest) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setData(userService.updateProfile(updateUserRequest));
         return apiResponse;

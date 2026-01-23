@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TutorServiceImpl implements TutorService {
@@ -22,7 +24,7 @@ public class TutorServiceImpl implements TutorService {
     private final TutorRepository tutorRepository;
 
     @Override
-    public TutorResponse appllyTutor(TutorRequest tutorRequest) {
+    public TutorResponse applyTutor(TutorRequest tutorRequest) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
         if(user.getRole().equals(RoleType.TUTOR))
@@ -42,6 +44,30 @@ public class TutorServiceImpl implements TutorService {
                 .id(user.getId())
                 .tutorStatus(TutorStatusType.PENDING)
                 .username(username)
+                .build();
+    }
+
+    @Override
+    public TutorResponse updateProfile(TutorRequest tutorRequest) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        if(!(user.getRole().equals(RoleType.TUTOR)))
+            throw new AppException(ErrorCode.TUT_013);
+        Tutor tutor =
+                tutorRepository.findById(Long.valueOf(user.getId())).orElseThrow(()-> new AppException(ErrorCode.TUT_012));
+        if(!(tutor.getProfileStatus().equals(TutorStatusType.APPROVED)))
+            throw new AppException(ErrorCode.TUT_013);
+        if(tutorRequest.getBio() != null)
+            tutor.setBio(tutorRequest.getBio());
+        if (tutorRequest.getHourlyRate() != null)
+            tutor.setHourlyRate(tutorRequest.getHourlyRate());
+        if(tutorRequest.getExperienceYears() != null)
+            tutor.setExperienceYears(tutorRequest.getExperienceYears());
+        tutorRepository.save(tutor);
+        return TutorResponse.builder()
+                .username(username)
+                .id(tutor.getId())
+                .tutorStatus(tutor.getProfileStatus())
                 .build();
     }
 }

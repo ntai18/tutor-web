@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class TutorRequest {
     private String bio;
     private BigDecimal hourlyRate;
-    private int experienceYears ;
+    private Integer experienceYears;
     private String identityCardUrl;
 
 
