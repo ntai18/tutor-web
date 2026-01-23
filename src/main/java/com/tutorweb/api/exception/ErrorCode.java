@@ -25,12 +25,13 @@ public enum ErrorCode {
 
     // Tutor
     TUT_012(410, "Không tìm thấy hồ sơ gia sư"),
-    TUT_013(411, "Hồ sơ gia sư chưa được phê duyệt"),
+    TUT_014(410,"Bạn đã đăng kí gia rồi!"),
+    TUT_013(411, "Hồ sơ gia sư của bạn đang được phê duyệt"),
 
     // Booking
-    BK_014(412,"Trùng lịch đặt"),
-    BK_015(413, "Không tìm thấy lịch đặt"),
-    BK_016(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)");
+    BK_015(412,"Trùng lịch đặt"),
+    BK_016(413, "Không tìm thấy lịch đặt"),
+    BK_017(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)");
     private final int code;
     private final String message;
 }

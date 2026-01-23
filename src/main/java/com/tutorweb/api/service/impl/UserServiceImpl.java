@@ -23,21 +23,18 @@ public class UserServiceImpl implements UserService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         var user = userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
         if(updateUserRequest.getEmail() != null){
-            if((userRepository.findByEmail(updateUserRequest.getEmail()).isPresent())){
+            if((userRepository.findByEmail(updateUserRequest.getEmail()).isPresent()))
                 throw new AppException(ErrorCode.USR_009);
-            }
             user.setEmail(updateUserRequest.getEmail());
         }
         if(updateUserRequest.getUsername() != null){
-            if((userRepository.findByUsername(updateUserRequest.getUsername()).isPresent())){
+            if((userRepository.findByUsername(updateUserRequest.getUsername()).isPresent()))
                 throw new AppException(ErrorCode.USR_007);
-            }
             user.setUsername(updateUserRequest.getUsername());
         }
         if(updateUserRequest.getPhone() != null){
-            if((userRepository.findByPhone(updateUserRequest.getPhone()).isPresent())){
+            if((userRepository.findByPhone(updateUserRequest.getPhone()).isPresent()))
                 throw new AppException(ErrorCode.USR_008);
-            }
             user.setPhone(updateUserRequest.getPhone());
         }
         userRepository.save(user);

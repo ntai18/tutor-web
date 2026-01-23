@@ -19,7 +19,8 @@ public class Tutor {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id" , nullable = false ,  unique = true)
+    @JoinColumn(name = "id" , nullable = false ,  unique = true,  referencedColumnName = "id" )
+    //referencedColumnName = "id" : lưu ý chỗ này phải chỉ định
     private User user;
 
     @Column(nullable = false , length = 15 , columnDefinition = "TEXT")
@@ -35,6 +36,7 @@ public class Tutor {
     private String identityCardUrl ;
 
     @Column(name ="profile_status")
-    private TutorStatusType profileStatus= TutorStatusType.PENDING;
+    @Enumerated(EnumType.STRING)
+    private TutorStatusType profileStatus;
 
 }
