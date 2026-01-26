@@ -4,6 +4,7 @@ import com.tutorweb.api.type.TokenType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Map;
 
 public interface JwtService {
@@ -15,5 +16,6 @@ public interface JwtService {
 
 
     UserDetailsService userDetailsService();
+    List<String> extractRoles(String token, TokenType type);
 
 }
