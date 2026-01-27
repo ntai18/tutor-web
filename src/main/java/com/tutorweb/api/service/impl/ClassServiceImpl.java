@@ -9,6 +9,7 @@ import com.tutorweb.api.model.entity.User;
 import com.tutorweb.api.repository.ClassRepository;
 import com.tutorweb.api.repository.UserRepository;
 import com.tutorweb.api.service.ClassService;
+import com.tutorweb.api.type.StatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class ClassServiceImpl implements ClassService {
         newClass.setPrice(classRequest.getPrice());
         newClass.setSubject(classRequest.getSubject());
         newClass.setUserId(user);
+        newClass.setStatus(StatusType.PENDING);
         classRepository.save(newClass);
         return ClassResponse.builder()
                 .title(classRequest.getTitle())
