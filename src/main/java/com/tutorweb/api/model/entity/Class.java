@@ -18,7 +18,7 @@ public class Class {
     private String title;
     private String description;
     private String subject;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Double price;
     @Column(nullable = false)
     private String address;

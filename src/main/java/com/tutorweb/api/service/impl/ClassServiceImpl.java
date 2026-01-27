@@ -39,4 +39,30 @@ public class ClassServiceImpl implements ClassService {
                 .address(classRequest.getAddress())
                 .build();
     }
+
+    @Override
+    public ClassResponse editClass(Long classId, ClassRequest classRequest) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =  userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        Class classes = classRepository.findOwnedClass(user.getId(), user).orElseThrow(()-> new AppException(ErrorCode.CL_018));
+        if((classRequest.getTitle() != null))
+            classes.setTitle(classRequest.getTitle());
+        if((classRequest.getDescription() != null))
+            classes.setDescription(classRequest.getDescription());
+        if((classRequest.getPrice() != null))
+            classes.setPrice(classRequest.getPrice());
+        if((classRequest.getSubject() != null))
+            classes.setSubject(classRequest.getSubject());
+        if((classRequest.getAddress() != null))
+            classes.setAddress(classRequest.getAddress());
+        classRepository.save(classes);
+        return ClassResponse.builder()
+                .address(classes.getAddress())
+                .description(classes.getDescription())
+                .price(classes.getPrice())
+                .subject(classes.getSubject())
+                .title(classes.getTitle())
+                .build();
+    }
+
 }
