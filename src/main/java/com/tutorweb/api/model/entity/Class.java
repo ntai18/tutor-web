@@ -1,5 +1,6 @@
 package com.tutorweb.api.model.entity;
 
+import com.tutorweb.api.type.StatusType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,9 @@ public class Class {
     private Double price;
     @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
 
 
     @ManyToOne

@@ -1,6 +1,6 @@
 package com.tutorweb.api.type;
 
-public enum ApplyStatusType {
+public enum StatusType {
     PENDING,
     APPROVED,
     REJECTED,

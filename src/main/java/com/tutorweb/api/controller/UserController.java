@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-
     @PatchMapping("/update")
     public ApiResponse<UserResponse> updateProfile( @RequestBody UpdateUserRequest updateUserRequest) {
         ApiResponse apiResponse = new ApiResponse();

@@ -1,6 +1,6 @@
 package com.tutorweb.api.model.entity;
 
-import com.tutorweb.api.type.ApplyStatusType;
+import com.tutorweb.api.type.StatusType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ public class ApplyClass {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ApplyStatusType status;
+    private StatusType status;
 
     @ManyToOne
     @JoinColumn(name = "tutor_id",  nullable = false)
