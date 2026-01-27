@@ -31,7 +31,10 @@ public enum ErrorCode {
     // Booking
     BK_015(412,"Trùng lịch đặt"),
     BK_016(413, "Không tìm thấy lịch đặt"),
-    BK_017(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)");
+    BK_017(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)"),
+
+    //Class
+    CL_018(415,"Không tìm thấy lớp học của bạn ");
     private final int code;
     private final String message;
 }
