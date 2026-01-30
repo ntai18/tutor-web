@@ -15,6 +15,7 @@ public enum ErrorCode {
     AUTH_004(404, "Access Token không hợp lệ hoặc đã hết hạn"),
     AUTH_005(405, "Không có quyền truy cập (Sai role)"),
     AUTH_006(406, "Refresh Token không hợp lệ hoặc đã hết hạn"),
+    AUTH_007(406, "Bạn đã là Admin!!"),
 
     // User
     USR_007(407, "UserName đã tồn tại"),

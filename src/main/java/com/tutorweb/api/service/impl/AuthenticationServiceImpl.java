@@ -66,6 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return UserResponse.builder()
                              .email(user.getEmail())
                              .phone(user.getPhone())
+                             .roleType(user.getRole())
                              .username(user.getUsername())
                              .build();
     }
