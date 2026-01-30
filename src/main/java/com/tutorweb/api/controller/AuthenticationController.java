@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+
     @PostMapping("/login")
     public ApiResponse<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
         ApiResponse<TokenResponse> apiResponse = new ApiResponse<>();

@@ -10,7 +10,7 @@ import com.tutorweb.api.repository.TutorRepository;
 import com.tutorweb.api.repository.UserRepository;
 import com.tutorweb.api.service.TutorService;
 import com.tutorweb.api.type.RoleType;
-import com.tutorweb.api.type.ApplyStatusType;
+import com.tutorweb.api.type.StatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,11 +33,16 @@ public class TutorServiceImpl implements TutorService {
         tutor.setHourlyRate(tutorRequest.getHourlyRate());
         tutor.setExperienceYears(tutorRequest.getExperienceYears());
         tutor.setIdentityCardUrl(tutorRequest.getIdentityCardUrl());
+        tutor.setStatus(StatusType.PENDING);
         user.setTutor(tutor);
         userRepository.save(user);
         return TutorResponse.builder()
                 .id(user.getId())
                 .username(username)
+                .bio(tutorRequest.getBio())
+                .hourlyRate(tutorRequest.getHourlyRate())
+                .experienceYears(tutorRequest.getExperienceYears())
+                .status(tutor.getStatus())
                 .build();
     }
 
@@ -59,6 +64,9 @@ public class TutorServiceImpl implements TutorService {
         return TutorResponse.builder()
                 .username(username)
                 .id(tutor.getId())
+                .bio(tutor.getBio())
+                .hourlyRate(tutor.getHourlyRate())
+                .experienceYears(tutor.getExperienceYears())
                 .build();
     }
 }

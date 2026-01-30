@@ -1,7 +1,7 @@
 package com.tutorweb.api.model.entity;
 
-import com.tutorweb.api.type.ApplyStatusType;
-import com.tutorweb.api.type.UserStatusType;
+
+import com.tutorweb.api.type.StatusType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +35,10 @@ public class Tutor {
 
     @Column(name ="identity_car_url" , nullable = false , length = 500 , unique = true)
     private String identityCardUrl ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusType status;
 
     @OneToMany(mappedBy = "tutorId")
     private List<ApplyClass> applyClasses;
