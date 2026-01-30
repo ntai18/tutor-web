@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ClassServiceImpl implements ClassService {
@@ -65,6 +67,32 @@ public class ClassServiceImpl implements ClassService {
                 .subject(classes.getSubject())
                 .title(classes.getTitle())
                 .build();
+    }
+
+    @Override
+    public void deleteClassMe(Long classId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =  userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        Class classes =
+                classRepository.findOwnedClass(classId, user).orElseThrow(()-> new AppException(ErrorCode.CL_018));
+        classRepository.delete(classes);
+    }
+
+    @Override
+    public List<ClassResponse> getClassMe() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        List<Class> cls = classRepository.findClassMe(user);
+        if(cls.isEmpty())
+            throw new AppException(ErrorCode.CL_019);
+        return cls.stream().map(classes -> ClassResponse.builder()
+                                                               .title(classes.getTitle())
+                                                               .subject(classes.getSubject())
+                                                               .price(classes.getPrice())
+                                                               .address(classes.getAddress())
+                                                               .description(classes.getDescription())
+                                                               .build())
+                .toList();
     }
 
 }

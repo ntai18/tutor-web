@@ -35,7 +35,8 @@ public enum ErrorCode {
     BK_017(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)"),
 
     //Class
-    CL_018(415,"Không tìm thấy lớp học của bạn ");
+    CL_018(415,"Không tìm thấy lớp học của bạn "),
+    CL_019(416,"Bạn chưa tạo lớp học !!");
     private final int code;
     private final String message;
 }
