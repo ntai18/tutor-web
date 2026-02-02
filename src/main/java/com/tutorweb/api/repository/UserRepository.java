@@ -1,8 +1,6 @@
 package com.tutorweb.api.repository;
 
 import com.tutorweb.api.model.entity.User;
-
-import com.tutorweb.api.type.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,8 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     Optional<User> findByPhone(String phone);
     Optional<User> findById(Long id);
-    @Query(value = "select c from User c join fetch c.tutor where c.role = :role ")
-    List<User> findTutor(@Param("role") RoleType role);
     @Query(value = "select c from User c join fetch c.tutor where c.id = :id")
     Optional<User> findByIdTutor(@Param("id") Long id);
+
+    @Query(value = "SELECT u FROM User u ")
+    List<User> findAllUser();
 }

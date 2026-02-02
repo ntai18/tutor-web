@@ -45,7 +45,7 @@ public class UserController {
         return apiResponse;
     }
 
-    @PatchMapping("/approve-tutor/{id}")
+    @PatchMapping("/tutor/{id}/approve")
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     public ApiResponse<UserResponse> approveTutor(@PathVariable Long id){
         ApiResponse apiResponse = new ApiResponse();
@@ -65,6 +65,30 @@ public class UserController {
     public ApiResponse<TutorResponse> getTutors(@PathVariable Long id) {
         ApiResponse<TutorResponse> apiResponse = new ApiResponse<>();
         apiResponse.setData(userService.getTutor(id));
+        return apiResponse;
+    }
+
+    @GetMapping("/manager/tutor/pending")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    public ApiResponse<UserResponse> getTutorPending(){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(userService.getTutorPending());
+        return apiResponse;
+    }
+
+    @PatchMapping("/tutor/{id}/rejected")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    public ApiResponse<UserResponse> rejectedTutor(@PathVariable Long id){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(userService.rejectedTutor(id));
+        return apiResponse;
+    }
+
+    @GetMapping("/manager/all")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    public ApiResponse<List<UserResponse>> getAllUsers(){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(userService.getAllUser());
         return apiResponse;
     }
 }
