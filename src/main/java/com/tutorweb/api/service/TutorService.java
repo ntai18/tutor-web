@@ -4,6 +4,8 @@ import com.tutorweb.api.model.dto.request.TutorRequest;
 import com.tutorweb.api.model.dto.response.TutorResponse;
 
 public interface TutorService {
-    TutorResponse applyTutor(TutorRequest tutorRequest);
+    TutorResponse getMe();
     TutorResponse updateProfile(TutorRequest tutorRequest);
+    TutorResponse applyTutor(TutorRequest tutorRequest);
+
 }

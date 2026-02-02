@@ -12,11 +12,13 @@ import com.tutorweb.api.service.TutorService;
 import com.tutorweb.api.type.RoleType;
 import com.tutorweb.api.type.StatusType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TutorServiceImpl implements TutorService {
     private final UserRepository userRepository;
     private final TutorRepository tutorRepository;
@@ -42,6 +44,22 @@ public class TutorServiceImpl implements TutorService {
                 .bio(tutorRequest.getBio())
                 .hourlyRate(tutorRequest.getHourlyRate())
                 .experienceYears(tutorRequest.getExperienceYears())
+                .status(tutor.getStatus())
+                .build();
+    }
+
+    @Override
+    public TutorResponse getMe() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Tutor tutor = tutorRepository.findByMe(username).orElseThrow(()-> new AppException(ErrorCode.TUT_012));
+        if (tutor.getStatus() == StatusType.PENDING)
+            throw new AppException(ErrorCode.TUT_013);
+        return TutorResponse.builder()
+                .id(tutor.getId())
+                .username(username)
+                .bio(tutor.getBio())
+                .hourlyRate(tutor.getHourlyRate())
+                .experienceYears(tutor.getExperienceYears())
                 .status(tutor.getStatus())
                 .build();
     }

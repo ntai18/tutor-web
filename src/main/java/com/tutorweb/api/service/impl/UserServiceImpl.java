@@ -7,21 +7,23 @@ import com.tutorweb.api.model.dto.response.TutorResponse;
 import com.tutorweb.api.model.dto.response.UserResponse;
 import com.tutorweb.api.model.entity.Tutor;
 import com.tutorweb.api.model.entity.User;
+import com.tutorweb.api.repository.TutorRepository;
 import com.tutorweb.api.repository.UserRepository;
 import com.tutorweb.api.service.UserService;
 import com.tutorweb.api.type.RoleType;
+import com.tutorweb.api.type.StatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
+
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final TutorRepository tutorRepository;
 
     @Override
     public UserResponse updateProfile(UpdateUserRequest updateUserRequest) {
@@ -97,14 +99,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<TutorResponse> getAllTutors() {
-        List<User> tutors = userRepository.findTutor(RoleType.TUTOR);
-        return tutors.stream().map(user -> TutorResponse.builder()
-                                                              .id(user.getTutor().getId())
-                                                              .bio(user.getTutor().getBio())
-                                                              .experienceYears(user.getTutor().getExperienceYears())
-                                                              .hourlyRate(user.getTutor().getHourlyRate())
-                                                              .username(user.getUsername())
-                                                              .build())
+        List<Tutor> tutors = tutorRepository.findTutorApproved();
+        return tutors.stream().map(tutor -> TutorResponse.builder()
+                        .id(tutor.getId())
+                        .status(tutor.getStatus())
+                        .bio(tutor.getBio())
+                        .status(tutor.getStatus())
+                        .experienceYears(tutor.getExperienceYears())
+                        .username(tutor.getUser().getUsername())
+                        .build())
                 .toList();
     }
     @Override
@@ -121,20 +124,57 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse approveTutor(Long id) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(()-> new AppException(ErrorCode.USR_010));
-        if (!(user.getRole().equals(RoleType.MANAGER) || user.getRole().equals(RoleType.ADMIN)))
-            throw new AppException(ErrorCode.AUTH_005);
-        User user1 = userRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USR_010));
-        if (user1.getRole().equals(RoleType.TUTOR))
+        Tutor tutor = tutorRepository.findByTutorUser(id).orElseThrow(()-> new AppException(ErrorCode.TUT_012));
+        if((tutor.getUser().getRole().equals(RoleType.TUTOR)) && ((tutor.getStatus()) != (StatusType.PENDING)))
             throw new AppException(ErrorCode.TUT_014);
-        user1.setRole(RoleType.TUTOR);
-        userRepository.save(user1);
+        tutor.getUser().setRole(RoleType.TUTOR);
+        tutor.setStatus(StatusType.APPROVED);
+        tutorRepository.save(tutor);
         return UserResponse.builder()
-                .email(user1.getEmail())
-                .username(user1.getUsername())
-                .phone(user1.getPhone())
-                .roleType(user1.getRole())
+                .roleType(tutor.getUser().getRole())
+                .email(tutor.getUser().getEmail())
+                .username(tutor.getUser().getUsername())
+                .phone(tutor.getUser().getPhone())
                 .build();
+    }
+
+    @Override
+    public List<TutorResponse> getTutorPending() {
+        List<Tutor> tutors = tutorRepository.findTutorPending();
+        return tutors.stream().map(tutor -> TutorResponse.builder()
+                .status(tutor.getStatus())
+                .id(tutor.getId())
+                .bio(tutor.getBio())
+                .experienceYears(tutor.getExperienceYears())
+                .hourlyRate(tutor.getHourlyRate())
+                .build()).toList();
+    }
+
+    @Override
+    public UserResponse rejectedTutor(Long id) {
+        Tutor tutor = tutorRepository.findByTutorUser(id).orElseThrow(()-> new AppException(ErrorCode.TUT_012));
+        if(tutor.getUser().getRole() == (RoleType.TUTOR))
+            throw new AppException(ErrorCode.TUT_014);
+        tutor.getUser().setRole(RoleType.USER);
+        tutor.setStatus(StatusType.REJECTED);
+        tutorRepository.save(tutor);
+        return UserResponse.builder()
+                .roleType(tutor.getUser().getRole())
+                .email(tutor.getUser().getEmail())
+                .username(tutor.getUser().getUsername())
+                .phone(tutor.getUser().getPhone())
+                .build();
+    }
+
+    @Override
+    public List<UserResponse> getAllUser() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user ->UserResponse.builder()
+                                          .email(user.getEmail())
+                                          .roleType(user.getRole())
+                                          .phone(user.getPhone())
+                                          .username(user.getUsername())
+                                          .build())
+                .toList();
     }
 }
