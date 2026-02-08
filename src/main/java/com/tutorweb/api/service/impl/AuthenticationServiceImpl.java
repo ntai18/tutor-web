@@ -22,6 +22,7 @@ import java.util.Optional;
 import static com.tutorweb.api.type.RoleType.USER;
 import static com.tutorweb.api.type.TokenType.REFRESH_TOKEN;
 import static com.tutorweb.api.type.UserStatusType.ACTIVE;
+import static com.tutorweb.api.type.UserStatusType.BANNED;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public TokenResponse login(LoginRequest loginRequest) {
-        var user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        if(user.getStatus() == BANNED)
+            throw new AppException(ErrorCode.USR_011);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         CustomUserDetail userDetails = new CustomUserDetail(user);
         String accessToken = jwtService.generateAccessToken(userDetails);
@@ -68,6 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                              .phone(user.getPhone())
                              .roleType(user.getRole())
                              .username(user.getUsername())
+                             .userStatusType(user.getStatus())
                              .build();
     }
 

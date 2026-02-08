@@ -12,6 +12,7 @@ import com.tutorweb.api.repository.UserRepository;
 import com.tutorweb.api.service.UserService;
 import com.tutorweb.api.type.RoleType;
 import com.tutorweb.api.type.StatusType;
+import com.tutorweb.api.type.UserStatusType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .roleType(user.getRole())
+                .userStatusType(user.getStatus())
                 .build();
     }
 
@@ -62,6 +64,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .roleType(user.getRole())
+                .userStatusType(user.getStatus())
                 .build();
     }
 
@@ -78,6 +81,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .roleType(user.getRole())
+                .userStatusType(user.getStatus())
                 .build();
     }
 
@@ -94,6 +98,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .roleType(user.getRole())
+                .userStatusType(user.getStatus())
                 .build();
     }
 
@@ -135,6 +140,7 @@ public class UserServiceImpl implements UserService {
                 .email(tutor.getUser().getEmail())
                 .username(tutor.getUser().getUsername())
                 .phone(tutor.getUser().getPhone())
+                .userStatusType(tutor.getUser().getStatus())
                 .build();
     }
 
@@ -163,6 +169,7 @@ public class UserServiceImpl implements UserService {
                 .email(tutor.getUser().getEmail())
                 .username(tutor.getUser().getUsername())
                 .phone(tutor.getUser().getPhone())
+                .userStatusType(tutor.getUser().getStatus())
                 .build();
     }
 
@@ -174,7 +181,22 @@ public class UserServiceImpl implements UserService {
                                           .roleType(user.getRole())
                                           .phone(user.getPhone())
                                           .username(user.getUsername())
+                                          .userStatusType(user.getStatus())
                                           .build())
                 .toList();
+    }
+
+    @Override
+    public UserResponse banned(Long id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+        user.setStatus(UserStatusType.BANNED);
+        userRepository.save(user);
+        return UserResponse.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .roleType(user.getRole())
+                .userStatusType(user.getStatus())
+                .build();
     }
 }

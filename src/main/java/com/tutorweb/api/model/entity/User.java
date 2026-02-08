@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user_app")
@@ -46,6 +45,6 @@ public class User {
     private Tutor tutor;
 
     @OneToMany(mappedBy = "userId")
-    private List<Class> classes;
+    private List<RoomClass> classes;
 
 }

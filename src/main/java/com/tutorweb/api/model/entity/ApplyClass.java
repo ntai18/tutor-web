@@ -1,6 +1,7 @@
 package com.tutorweb.api.model.entity;
 
 import com.tutorweb.api.type.StatusType;
+import io.jsonwebtoken.lang.Classes;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class ApplyClass {
 
     @ManyToOne
     @JoinColumn(name = "class_id", nullable = false)
-    private Class classes;
+    private RoomClass classes;
 
 
 

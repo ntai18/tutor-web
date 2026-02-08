@@ -18,4 +18,5 @@ public interface UserService {
     List<TutorResponse> getTutorPending();
     UserResponse rejectedTutor(Long id);
     List<UserResponse> getAllUser();
+    UserResponse banned(Long id);
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name ="class")
 @Getter
 @Setter
-public class Class {
+public class RoomClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

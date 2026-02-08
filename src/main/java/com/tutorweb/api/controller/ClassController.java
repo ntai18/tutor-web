@@ -5,6 +5,7 @@ import com.tutorweb.api.model.dto.response.ApiResponse;
 import com.tutorweb.api.model.dto.response.ClassResponse;
 import com.tutorweb.api.service.ClassService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,13 +30,31 @@ public class ClassController {
     }
 
     @PatchMapping("/edit/{id}")
-    public ApiResponse<ClassResponse> editClass(@PathVariable Long id, @RequestBody ClassRequest classRequest) {
+    public ApiResponse<ClassResponse> editClassMe(@PathVariable("id") Long idClass, @RequestBody ClassRequest classRequest) {
         ApiResponse<ClassResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setData(classService.editClass(id, classRequest));
+        apiResponse.setData(classService.editClassMe(idClass, classRequest));
         return apiResponse ;
     }
     @DeleteMapping ("/delete/{id}")
-    public void deleteClassMe(@PathVariable Long id) {
-        classService.deleteClassMe(id);
+    public ApiResponse deleteClassMe(@PathVariable Long id) {
+        ApiResponse apiResponse = new ApiResponse<>();
+
+        apiResponse.setData(classService.deleteClassMe(id));
+        return apiResponse;
+    }
+    @DeleteMapping ("/admin/delete/{id-class}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ApiResponse deleteClassUser(@PathVariable("id-class") Long idClass ) {
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setData(classService.deleteClassUser(idClass));
+        return apiResponse;
+    }
+
+    @PatchMapping("/admin/edit/{id-class}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    public ApiResponse<ClassResponse> editClassUser(@PathVariable("id-class") Long idClass, @RequestBody ClassRequest classRequest) {
+        ApiResponse<ClassResponse> apiResponse = new ApiResponse<>();
+        apiResponse.setData(classService.editClassUser(idClass, classRequest));
+        return apiResponse ;
     }
 }

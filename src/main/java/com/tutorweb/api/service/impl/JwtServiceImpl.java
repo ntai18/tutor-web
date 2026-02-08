@@ -107,7 +107,11 @@ public class JwtServiceImpl implements JwtService {
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token, TokenType tokenType) {
-        return Jwts.parserBuilder().setSigningKey(getKey(tokenType)).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(getKey(tokenType))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
     private Boolean isTokenExpired(String token , TokenType tokenType) {
         return extractExpiration(token, tokenType).before(new Date());

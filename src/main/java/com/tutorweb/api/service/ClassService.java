@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface ClassService {
     ClassResponse createClass(ClassRequest classRequest);
-    ClassResponse editClass(Long classId, ClassRequest classRequest);
-    void deleteClassMe(Long classId);
+    ClassResponse editClassMe(Long classId, ClassRequest classRequest);
+    Object deleteClassMe(Long classId);
     List<ClassResponse> getClassMe();
+    Object deleteClassUser(Long classId);
+    ClassResponse editClassUser(Long classId, ClassRequest classRequest);
 }

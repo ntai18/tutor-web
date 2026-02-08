@@ -91,4 +91,11 @@ public class UserController {
         apiResponse.setData(userService.getAllUser());
         return apiResponse;
     }
+    @PatchMapping("/admin/banned/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse<UserResponse> banned(@PathVariable Long id){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(userService.banned(id));
+        return apiResponse;
+    }
 }
