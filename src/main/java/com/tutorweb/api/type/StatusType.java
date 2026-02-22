@@ -4,4 +4,6 @@ public enum StatusType {
     PENDING,
     APPROVED,
     REJECTED,
+    INVITED,
+    ACCEPTED,
 }

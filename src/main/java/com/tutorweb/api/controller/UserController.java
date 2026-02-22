@@ -53,7 +53,7 @@ public class UserController {
         return apiResponse;
     }
 
-    @GetMapping("/list-tutor")
+    @GetMapping("/tutor")
     @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     public ApiResponse<List<TutorResponse>> getAllTutors() {
         ApiResponse<List<TutorResponse>> apiResponse = new ApiResponse<>();

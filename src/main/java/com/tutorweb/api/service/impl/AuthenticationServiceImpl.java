@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -48,6 +49,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .refreshToken(refreshToken)
                 .build();
     }
+
+//    private boolean authenticate(LoginRequest loginRequest) {
+//        var user =  userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(()-> new AppException(ErrorCode.USR_010));
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        return  passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
+//    }
 
     @Override
     public UserResponse signup(SignUpRequest signUpRequest) {

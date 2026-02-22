@@ -6,15 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
 @Builder
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ClassResponse {
+public class ApplyClassResponse {
+    private StatusType status;
+    private Long classId;
+    private Long idTutor;
     private String title;
-    private String description;
     private String subject;
     private Double price;
-    private String address;
-    private StatusType status;
+
 }

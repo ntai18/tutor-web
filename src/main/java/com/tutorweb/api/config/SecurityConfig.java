@@ -26,7 +26,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 
 @Configuration
-@EnableWebSecurity
+
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
@@ -61,7 +61,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     @Bean
-    public AuthenticationManager  authenticationManager(AuthenticationConfiguration  authenticationConfiguration) throws Exception {
+    public AuthenticationManager  authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
     @Bean

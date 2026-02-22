@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface TutorRepository extends JpaRepository<Tutor,Long> {
-    Optional<Tutor> findById(Long id);
+    @Query(value = "SELECT t FROM Tutor t WHERE t.id = :id")
+    Optional<Tutor> findById(@Param("id") Long id);
 
     @Query(value = "SELECT t FROM Tutor t JOIN t.user u WHERE u.username = :username ")
     Optional<Tutor> findByMe(@Param("username") String username);
@@ -24,6 +25,6 @@ public interface TutorRepository extends JpaRepository<Tutor,Long> {
     List<Tutor> findTutorPending();
 
     //hard-code
-    @Query(value = "SELECT t FROM Tutor t JOIN FETCH t.user WHERE t.status = 'APPORVED' ")
+    @Query(value = "SELECT t FROM Tutor t JOIN FETCH t.user WHERE t.status = 'APPROVED' ")
     List<Tutor> findTutorApproved();
 }

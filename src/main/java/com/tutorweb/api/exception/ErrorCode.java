@@ -33,6 +33,8 @@ public enum ErrorCode {
     BK_015(412,"Trùng lịch đặt"),
     BK_016(413, "Không tìm thấy lịch đặt"),
     BK_017(414, "Thời gian đặt không hợp lệ (Thời gian bắt đầu ≥ thời gian kết thúc)"),
+    BK_018(414, "Đã được chấp nhận trước đó rồi!!!"),
+    BK_019(414, "Đã được từ chối trước đó rồi!!!"),
 
     //Class
     CL_018(415,"Không tìm thấy lớp học của bạn "),
