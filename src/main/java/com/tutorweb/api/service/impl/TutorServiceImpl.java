@@ -2,10 +2,14 @@ package com.tutorweb.api.service.impl;
 
 import com.tutorweb.api.exception.AppException;
 import com.tutorweb.api.exception.ErrorCode;
+import com.tutorweb.api.model.dto.request.SearchClassRequest;
 import com.tutorweb.api.model.dto.request.TutorRequest;
+import com.tutorweb.api.model.dto.response.ClassResponse;
 import com.tutorweb.api.model.dto.response.TutorResponse;
+import com.tutorweb.api.model.entity.RoomClass;
 import com.tutorweb.api.model.entity.Tutor;
 import com.tutorweb.api.model.entity.User;
+import com.tutorweb.api.repository.ClassRepository;
 import com.tutorweb.api.repository.TutorRepository;
 import com.tutorweb.api.repository.UserRepository;
 import com.tutorweb.api.service.TutorService;
@@ -16,12 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class TutorServiceImpl implements TutorService {
     private final UserRepository userRepository;
     private final TutorRepository tutorRepository;
+    private final ClassRepository classRepository;
 
     @Override
     public TutorResponse applyTutor(TutorRequest tutorRequest) {
@@ -46,6 +54,25 @@ public class TutorServiceImpl implements TutorService {
                 .experienceYears(tutorRequest.getExperienceYears())
                 .status(tutor.getStatus())
                 .build();
+    }
+
+    @Override
+    public List<ClassResponse> searchClass(SearchClassRequest searchClassRequest) {
+        List<RoomClass> roomClass = classRepository.searchClass(searchClassRequest.getTitle(),
+                                                                searchClassRequest.getDescription(),
+                                                                searchClassRequest.getSubject(),
+                                                                searchClassRequest.getPriceMin(),
+                                                                searchClassRequest.getPriceMax(),
+                                                                searchClassRequest.getAddress(),
+                                                                searchClassRequest.getStatus());
+        return roomClass.stream().map(roomClasses -> ClassResponse.builder()
+                                              .title(roomClasses.getTitle())
+                                              .subject(roomClasses.getSubject())
+                                              .price(roomClasses.getPrice())
+                                              .description(roomClasses.getDescription())
+                                              .status(roomClasses.getStatus())
+                                              .build()
+        ).toList();
     }
 
     @Override

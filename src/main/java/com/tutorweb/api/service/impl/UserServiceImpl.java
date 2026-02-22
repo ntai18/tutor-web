@@ -109,7 +109,6 @@ public class UserServiceImpl implements UserService {
                         .id(tutor.getId())
                         .status(tutor.getStatus())
                         .bio(tutor.getBio())
-                        .status(tutor.getStatus())
                         .experienceYears(tutor.getExperienceYears())
                         .username(tutor.getUser().getUsername())
                         .build())
